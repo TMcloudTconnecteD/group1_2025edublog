@@ -12,9 +12,9 @@ connectDB();      // connect to Mongo
 
 const app = express();
 app.use(cors({
-  origin: [
+  origin: 
   "https://group1-blog.onrender.com",
-  "https://group1-2025edublog-1.onrender.com"], // your frontend URL
+  // your frontend URL
   credentials: true
 }));
 app.use(express.json());
