@@ -106,7 +106,7 @@ export default function BlogPage() {
 
       {/* Reactions */}
       <div className="mt-4 flex items-center gap-4 flex-wrap">
-        {["❤️", "😂", "😢", "😡", "😮"].map((emoji) => (
+        {["❤️"].map((emoji) => (
           <button
             key={emoji}
             onClick={() => handleLike(emoji)}
