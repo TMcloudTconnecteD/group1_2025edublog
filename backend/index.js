@@ -11,7 +11,10 @@ dotenv.config(); // load .env FIRST
 connectDB();      // connect to Mongo
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: "https://group1-2025edublog-2.onrender.com", // your frontend URL
+  credentials: true
+}));
 app.use(express.json());
 
 app.use("/api/auth", authRoutes);
