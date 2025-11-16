@@ -15,7 +15,11 @@ export default function PostCard({ post }) {
           By {post?.author?.username || "Unknown"}
         </p>
 
-        <p className="line-clamp-3 mb-4 text-gray-700">{post.content}</p>
+                <p className="text-gray-700 mb-4">
+            {post.content.split("\n")[0].slice(0, 200)}{/* first paragraph or first 200 chars */}
+            {post.content.length > 200 && "..."}
+          </p>
+
 
         <Link
           to={`/blog/${post._id}`}
