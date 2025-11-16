@@ -13,7 +13,7 @@ export default function Register() {
   const submit = async (e) => {
     e.preventDefault();
     try {
-      const res = await api.post("/register", { username, email, password });
+      const res = await api.post("/auth/register", { username, email, password });
       localStorage.setItem("token", res.data.token); // save JWT
       setUser(res.data);
       navigate("/");
