@@ -12,18 +12,11 @@ export default function Register() {
 
   const submit = async (e) => {
     e.preventDefault();
-
     try {
-      const res = await api.post("/auth/register", {
-        username,
-        email,
-        password,
-      });
-
-      // backend returns user object
+      const res = await api.post("/auth/register", { username, email, password });
+      localStorage.setItem("token", res.data.token); // save JWT
       setUser(res.data);
-
-      navigate("/"); // go home after success
+      navigate("/");
     } catch (err) {
       alert(err.response?.data?.message || "Registration failed");
     }
@@ -32,7 +25,6 @@ export default function Register() {
   return (
     <div className="max-w-md mx-auto mt-16 p-6 bg-white shadow rounded">
       <h2 className="text-2xl font-bold mb-4 text-center">Create Account</h2>
-
       <form className="flex flex-col gap-3" onSubmit={submit}>
         <input
           type="text"
@@ -42,7 +34,6 @@ export default function Register() {
           className="border p-2 rounded"
           required
         />
-
         <input
           type="email"
           placeholder="Email"
@@ -51,7 +42,6 @@ export default function Register() {
           className="border p-2 rounded"
           required
         />
-
         <input
           type="password"
           placeholder="Password"
@@ -60,7 +50,6 @@ export default function Register() {
           className="border p-2 rounded"
           required
         />
-
         <button
           type="submit"
           className="bg-primary text-white py-2 rounded hover:bg-red-500"
@@ -68,12 +57,9 @@ export default function Register() {
           Register
         </button>
       </form>
-
       <p className="mt-3 text-sm text-gray-600 text-center">
         Already have an account?{" "}
-        <Link to="/login" className="text-accent hover:underline">
-          Login
-        </Link>
+        <Link to="/login" className="text-accent hover:underline">Login</Link>
       </p>
     </div>
   );
