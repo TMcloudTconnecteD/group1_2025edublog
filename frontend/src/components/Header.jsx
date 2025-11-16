@@ -13,7 +13,7 @@ export default function Header() {
 
   return (
     <nav className="w-full flex justify-between items-center p-4 bg-primary text-white shadow-md">
-      <Link to="/" className="font-bold text-2xl">EduBlog</Link>
+      <Link to="/" className="font-bold text-2xl">G1EduBlog</Link>
       <div className="flex items-center gap-4">
         <Link to="/" className="hover:underline">Home</Link>
         <Link to="/create" className="hover:underline">Create</Link>
