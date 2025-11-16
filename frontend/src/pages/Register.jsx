@@ -52,7 +52,7 @@ export default function Register() {
         />
         <button
           type="submit"
-          className="bg-primary text-white py-2 rounded hover:bg-red-500"
+          className="bg-primary text-black py-2 rounded hover:bg-red-500"
         >
           Register
         </button>

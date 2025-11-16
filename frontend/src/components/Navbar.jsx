@@ -20,7 +20,7 @@ export default function Navbar() {
 
       {/* Links */}
       <div className="flex items-center gap-4">
-        <Link to="/" className="hover:text-indigo-600 font-medium transition">Home</Link>
+        {/* <Link to="/" className="hover:text-indigo-600 font-medium transition">Home</Link> */}
         {user && <Link to="/create" className="hover:text-indigo-600 font-medium transition">Create</Link>}
 
         {/* Auth buttons / user info */}

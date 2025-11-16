@@ -41,7 +41,7 @@ export default function Login() {
           className="border p-2 rounded"
           required
         />
-        <button type="submit" className="bg-primary text-white py-2 rounded hover:bg-red-500">
+        <button type="submit" className="bg-primary text-black py-2 rounded hover:bg-red-500">
           Login
         </button>
       </form>

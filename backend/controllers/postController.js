@@ -60,6 +60,7 @@ export const likePost = async (req, res) => {
 
     const userId = req.user._id;
 
+    // Toggle like
     if (post.likes.includes(userId)) {
       post.likes.pull(userId);
     } else {
@@ -68,7 +69,13 @@ export const likePost = async (req, res) => {
 
     await post.save();
 
-    res.json({ likes: post.likes.length });
+    // Populate likes with username for frontend
+    await post.populate("likes", "username");
+
+    res.json({ 
+      likes: post.likes, // array of { _id, username }
+      likesCount: post.likes.length // number of likes
+    });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Server error liking post" });

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import PostCard from "../components/PostCard";
+import Footer from "../components/Footer";
 
 export default function Home() {
   const [posts, setPosts] = useState([]);
@@ -40,6 +41,7 @@ export default function Home() {
           <PostCard key={post._id} post={post} />
         ))}
       </div>
+      <Footer />
     </div>
   );
 }
