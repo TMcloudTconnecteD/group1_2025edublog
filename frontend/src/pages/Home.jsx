@@ -11,7 +11,7 @@ export default function Home() {
 
         const token = localStorage.getItem("token");
 
-    const res = await axios.get("http://localhost:5000/api/posts", {
+    const res = await axios.get(`${import.meta.env.VITE_API_URL}/posts`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
