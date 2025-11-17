@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 export default function PostCard({ post }) {
   const likeCount = post.likes?.length || 0;
-  const isTrending = likeCount >= 20;
+  const isTrending = likeCount >= 5;
 
   return (
     <div className="border rounded-lg shadow-lg overflow-hidden flex flex-col bg-white dark:bg-gray-800 transition">
