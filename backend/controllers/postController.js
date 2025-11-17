@@ -25,23 +25,31 @@ export const createPost = async (req, res) => {
 
 // Get all posts
 export const getPosts = async (req, res) => {
-  try {
-    const posts = await Post.find()
-      .populate("author", "username email") // populate Member info
-      .sort({ createdAt: -1 });
+  const posts = await Post.find()
+    .populate("author", "username")
+    .populate("likes", "username")
+    .sort({ createdAt: -1 });
 
-    res.json(posts);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Server error fetching posts" });
-  }
+  // We add commentsCount dynamically
+  const postsWithCounts = await Promise.all(
+    posts.map(async (post) => {
+      const commentCount = await Comment.countDocuments({ post: post._id });
+      return {
+        ...post.toObject(),
+        commentsCount: commentCount,
+      };
+    })
+  );
+
+  res.json(postsWithCounts);
 };
+
 
 // Get single post by ID
 export const getPostById = async (req, res) => {
   try {
     const post = await Post.findById(req.params.id)
-      .populate("author", "username email");
+      .populate("author", "username");
 
     if (!post) return res.status(404).json({ message: "Post not found" });
 
