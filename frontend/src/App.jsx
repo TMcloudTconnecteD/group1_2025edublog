@@ -13,7 +13,7 @@ import Profile from "./pages/Profile";
 export default function App() {
   return (
     <AuthProvider>
-      <BrowserRouter>
+      
         <Navbar />
         <main className="pt-4 bg-gray-50 min-h-screen">
           <Routes>
@@ -35,7 +35,7 @@ export default function App() {
             <Route path="/blog/:id" element={<BlogPage />} />
           </Routes>
         </main>
-      </BrowserRouter>
+      
     </AuthProvider>
   );
 }
