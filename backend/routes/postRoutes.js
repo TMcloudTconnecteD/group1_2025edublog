@@ -4,6 +4,7 @@ import {
   getPosts,
   getPostById,
   likePost,
+  getUserPosts,
 } from "../controllers/postController.js";
 import { protect } from "../middlewares/authMiddleware.js";
 import { addComment, getComments } from "../controllers/commentController.js";
@@ -13,6 +14,9 @@ const router = express.Router();
 // GET posts
 router.get("/", protect, getPosts);
 router.get("/:id", protect, getPostById);
+
+// User-specific
+router.get("/user/me", protect, getUserPosts);
 
 // POST actions
 router.post("/", protect, createPost);

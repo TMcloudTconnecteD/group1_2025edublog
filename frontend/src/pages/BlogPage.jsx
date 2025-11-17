@@ -107,7 +107,10 @@ export default function BlogPage() {
         By {post?.author?.username || "Unknown"}
       </p>
 
-      <p className="mt-4 text-lg">{post.content}</p>
+     <div className="mt-4 text-lg whitespace-pre-line leading-relaxed">
+  {post.content}
+</div>
+
 
       {/* ❤️ Like and toggle likes list */}
       <div className="mt-4 flex items-center gap-4 flex-wrap">

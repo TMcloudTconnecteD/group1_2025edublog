@@ -114,3 +114,19 @@ export const likePost = async (req, res) => {
     res.status(500).json({ message: "Server error liking post" });
   }
 };
+// ===============================
+// Get logged-in user's posts
+// ===============================
+export const getUserPosts = async (req, res) => {
+  try {
+    const posts = await Post.find({ author: req.user._id })
+      .populate("author", "username")
+      .populate("likes", "username")
+      .sort({ createdAt: -1 });
+
+    res.json(posts);
+  } catch (err) {
+    console.error("Get user posts error:", err);
+    res.status(500).json({ message: "Server error fetching user posts" });
+  }
+};
