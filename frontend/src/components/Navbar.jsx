@@ -68,7 +68,7 @@ export default function Navbar() {
                   </Link>
 
                   <Link
-                    to="/profile/posts"
+                    to="/profile"
                     onClick={() => setOpen(false)}
                     className="block px-3 py-2 text-sm hover:bg-gray-100 rounded-lg"
                   >
