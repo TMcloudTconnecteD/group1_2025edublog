@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -13,25 +13,29 @@ import Profile from "./pages/Profile";
 export default function App() {
   return (
     <AuthProvider>
-      <Navbar />
-      <main className="pt-4 bg-gray-50 min-h-screen">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route
-            path="/create"
-            element={
-              <ProtectedRoute>
-                <CreatePost />
-              </ProtectedRoute>
-            }
-          />
-          <Route path="/post/:id" element={<PostDetails />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/blog/:id" element={<BlogPage />} />
-        </Routes>
-      </main>
+      <BrowserRouter>
+        <Navbar />
+        <main className="pt-4 bg-gray-50 min-h-screen">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/profile" element={<Profile />} />
+
+            <Route
+              path="/create"
+              element={
+                <ProtectedRoute>
+                  <CreatePost />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route path="/post/:id" element={<PostDetails />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/blog/:id" element={<BlogPage />} />
+          </Routes>
+        </main>
+      </BrowserRouter>
     </AuthProvider>
   );
 }
