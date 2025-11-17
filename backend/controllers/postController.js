@@ -53,14 +53,20 @@ export const getPostById = async (req, res) => {
 };
 
 // Like/unlike a post
+// postController.js
+
 export const likePost = async (req, res) => {
+  const { id } = req.params; // postId
+  const userId = req.user._id;
+
   try {
-    const post = await Post.findById(req.params.id);
-    if (!post) return res.status(404).json({ message: "Post not found" });
+    const post = await Post.findById(id);
 
-    const userId = req.user._id;
+    if (!post) {
+      return res.status(404).json({ message: "Post not found" });
+    }
 
-    // Toggle like
+    // Toggle like: add/remove user
     if (post.likes.includes(userId)) {
       post.likes.pull(userId);
     } else {
@@ -69,15 +75,12 @@ export const likePost = async (req, res) => {
 
     await post.save();
 
-    // Populate likes with username for frontend
-    await post.populate("likes", "username");
+    // ✅ Important: populate likes with username for frontend
+    const updatedPost = await Post.findById(id).populate("likes", "username");
 
-    res.json({ 
-      likes: post.likes, // array of { _id, username }
-      likesCount: post.likes.length // number of likes
-    });
+    res.json(updatedPost);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: "Server error liking post" });
+    res.status(500).json({ message: "Server error" });
   }
 };

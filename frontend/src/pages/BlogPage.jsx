@@ -11,7 +11,10 @@ export default function BlogPage() {
   const [comments, setComments] = useState([]);
   const [commentText, setCommentText] = useState("");
   const [loading, setLoading] = useState(true);
-  const [darkMode, setDarkMode] = useState(localStorage.getItem("darkMode") === "true");
+  const [darkMode, setDarkMode] = useState(
+    localStorage.getItem("darkMode") === "true"
+  );
+  const [showLikes, setShowLikes] = useState(false);
 
   // Toggle dark mode
   const toggleDarkMode = () => {
@@ -39,18 +42,14 @@ export default function BlogPage() {
     }
   };
 
-  // Handle like/unlike (❤️ only)
+  // Handle ❤️ like
   const handleLike = async () => {
-    if (!user) return alert("You must be logged in to like a post!");
+    if (!user) return alert("Login to react!");
     try {
-      const res = await api.post(`/posts/${id}/like`);
-      // Immediately update the local state to reflect the like
-      setPost((prev) => ({
-        ...prev,
-        likes: res.data.likes,
-      }));
+      const res = await api.post(`/posts/${id}/like`, { reaction: "❤️" });
+      setPost(res.data); // expects backend to return populated post.likes
     } catch (err) {
-      console.log("Error liking post:", err);
+      console.log("Error liking post:", err.response?.data || err);
     }
   };
 
@@ -80,8 +79,11 @@ export default function BlogPage() {
   if (!post) return <p className="text-center mt-10">Post not found</p>;
 
   return (
-    <div className={`max-w-3xl mx-auto p-4 mt-8 transition-colors ${darkMode ? "bg-gray-900 text-white" : "bg-white text-gray-900"}`}>
-      
+    <div
+      className={`max-w-3xl mx-auto p-4 mt-8 transition-colors ${
+        darkMode ? "bg-gray-900 text-white" : "bg-white text-gray-900"
+      }`}
+    >
       {/* Dark mode toggle */}
       <div className="flex justify-end mb-4">
         <button
@@ -107,39 +109,53 @@ export default function BlogPage() {
 
       <p className="mt-4 text-lg">{post.content}</p>
 
-      {/* Like button */}
-      <div className="mt-4 flex items-center gap-4">
+      {/* ❤️ Like and toggle likes list */}
+      <div className="mt-4 flex items-center gap-4 flex-wrap">
         <button
           onClick={handleLike}
-          className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+          className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700"
         >
           ❤️ Like ({post.likes?.length || 0})
         </button>
 
         {post.likes?.length > 0 && (
-          <p className="text-gray-600 dark:text-gray-300 text-sm">
-            Liked by: {post.likes.map((user) => user.username).join(", ")}
-          </p>
+          <button
+            onClick={() => setShowLikes(!showLikes)}
+            className="text-sm text-indigo-600 hover:underline"
+          >
+            {showLikes ? "Hide Likes" : `View ${post.likes.length} Likes`}
+          </button>
         )}
       </div>
 
+      {showLikes && post.likes?.length > 0 && (
+        <ul className="mt-2 text-sm text-gray-600 dark:text-gray-300">
+          {post.likes.map((u) => (
+            <li key={u._id}>{u.username}</li>
+          ))}
+        </ul>
+      )}
+
+      {/* Comments */}
       <h2 className="text-2xl font-semibold mt-8">Comments</h2>
 
       <form className="flex gap-2 mt-4" onSubmit={submitComment}>
         <input
-          className={`flex-1 border p-2 rounded ${darkMode ? "bg-gray-800 text-white border-gray-700" : ""}`}
+          className="flex-1 border p-2 rounded dark:bg-gray-800 dark:text-white"
           placeholder="Write a comment..."
           value={commentText}
           onChange={(e) => setCommentText(e.target.value)}
         />
-        <button className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">Post</button>
+        <button className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">
+          Post
+        </button>
       </form>
 
       <div className="mt-4">
         {comments.map((c) => (
           <div
             key={c._id}
-            className={`border p-3 rounded mb-2 ${darkMode ? "border-gray-700" : ""}`}
+            className="border p-3 rounded mb-2 dark:border-gray-700"
           >
             <p className="font-semibold">{c.user?.username || "Unknown"}</p>
             <p>{c.text}</p>
