@@ -13,7 +13,11 @@
 
         {/* Avatar dropdown */}
         <div className="relative group">
-          <img src={user.avatar} alt={`${user.username}'s avatar`} className="h-8 w-8 rounded-full" />
+         <img
+  src={user.avatar || "https://api.dicebear.com/7.x/avataaars/svg?seed=TMcloud"}
+  alt={`${user.username}'s avatar`}
+  className="h-8 w-8 rounded-full"
+/>
 
 
           {/* Dropdown */}
