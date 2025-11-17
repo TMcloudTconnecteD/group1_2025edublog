@@ -120,7 +120,7 @@ export const likePost = async (req, res) => {
 export const getUserPosts = async (req, res) => {
   try {
     const posts = await Post.find({ author: req.user._id })
-      .populate("author", "username")
+      .populate("author", "username email") // Populate author info
       .populate("likes", "username")
       .sort({ createdAt: -1 });
 

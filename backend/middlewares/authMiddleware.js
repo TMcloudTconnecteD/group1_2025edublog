@@ -13,8 +13,8 @@ export const protect = async (req, res, next) => {
 
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-      // the logged-in user will now be req.user (NOT req.Member)
-      req.user = await Member.findById(decoded.id).select("username email");
+      // Keep _id, username, email for queries & frontend
+      req.user = await Member.findById(decoded.id).select("_id username email");
 
       if (!req.user) {
         return res.status(401).json({ message: "User not found" });
@@ -23,9 +23,7 @@ export const protect = async (req, res, next) => {
       next();
     } catch (err) {
       console.error(err);
-      return res
-        .status(401)
-        .json({ message: "Not authorized, token invalid" });
+      return res.status(401).json({ message: "Not authorized, token invalid" });
     }
   } else {
     return res.status(401).json({ message: "No token" });

@@ -1,23 +1,12 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { useState, useEffect, useRef } from "react";
 
 export default function Navbar() {
   const { user, logout } = useAuth();
-  const [open, setOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
-  const menuRef = useRef(null);
-
-  // Close dropdown when clicking outside
-  useEffect(() => {
-    const handler = (e) => {
-      if (menuRef.current && !menuRef.current.contains(e.target)) {
-        setOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handler);
-    return () => document.removeEventListener("mousedown", handler);
-  }, []);
+  const handleAvatarClick = () => setDropdownOpen(!dropdownOpen);
 
   return (
     <nav className="flex items-center justify-between px-6 py-4 bg-white shadow-md sticky top-0 z-50">
@@ -35,52 +24,36 @@ export default function Navbar() {
               to="/create"
               className="hover:text-indigo-600 font-medium transition"
             >
-              Create New Blog
+              Create
             </Link>
+             <div className="text-sm px-3 py-2 text-gray-600">
+                    Hey, {user.username}!
+                  </div>
 
-            {/* Avatar + clickable dropdown */}
-            <div className="relative" ref={menuRef}>
+            {/* Avatar + dropdown */}
+            <div className="relative">
               <img
-                onClick={() => setOpen(!open)}
                 src={
                   user.avatar ||
                   "https://api.dicebear.com/7.x/avataaars/svg?seed=TMcloud"
                 }
                 alt="profile avatar"
-                className="h-9 w-9 rounded-full cursor-pointer border hover:scale-105 transition"
+                className="h-8 w-8 rounded-full cursor-pointer"
+                onClick={handleAvatarClick}
               />
 
-              {/* Dropdown menu */}
-              {open && (
-                <div className="absolute right-0 mt-2 bg-white shadow-xl rounded-xl w-44 p-3 animate-fadeIn">
-                  <p className="px-3 py-2 text-sm text-gray-700 font-medium">
-                    Hey, {user.username} 👋
-                  </p>
-
-                  <hr className="my-2" />
-
+              {dropdownOpen && (
+                <div className="absolute right-0 mt-2 bg-white shadow-lg rounded-lg w-40 p-2">
+                 
                   <Link
                     to="/profile"
-                    onClick={() => setOpen(false)}
-                    className="block px-3 py-2 text-sm hover:bg-gray-100 rounded-lg"
+                    className="block px-3 py-2 text-sm hover:bg-gray-100 rounded"
                   >
                     Profile
                   </Link>
-
-                  <Link
-                    to="/profile"
-                    onClick={() => setOpen(false)}
-                    className="block px-3 py-2 text-sm hover:bg-gray-100 rounded-lg"
-                  >
-                    Your Posts
-                  </Link>
-
                   <button
-                    onClick={() => {
-                      logout();
-                      setOpen(false);
-                    }}
-                    className="w-full text-left px-3 py-2 text-sm text-red-500 hover:bg-red-100 rounded-lg"
+                    onClick={logout}
+                    className="w-full text-left px-3 py-2 text-sm text-red-500 hover:bg-red-100 rounded"
                   >
                     Logout
                   </button>

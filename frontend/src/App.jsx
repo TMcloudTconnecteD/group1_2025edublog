@@ -18,7 +18,7 @@ export default function App() {
         <main className="pt-4 bg-gray-50 min-h-screen">
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/profile" element={<Profile />} />
+           
 
             <Route
               path="/create"
@@ -26,9 +26,10 @@ export default function App() {
                 <ProtectedRoute>
                   <CreatePost />
                 </ProtectedRoute>
+
               }
             />
-
+            <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
             <Route path="/post/:id" element={<PostDetails />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
