@@ -16,7 +16,7 @@ router.get("/", protect, getPosts);
 router.get("/:id", protect, getPostById);
 
 // User-specific
-router.get("/user/me", protect, getUserPosts);
+router.get("/user", protect, getUserPosts);
 
 // POST actions
 router.post("/", protect, createPost);

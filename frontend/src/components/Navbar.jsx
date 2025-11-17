@@ -35,7 +35,7 @@ export default function Navbar() {
               to="/create"
               className="hover:text-indigo-600 font-medium transition"
             >
-              Create
+              Create New Blog
             </Link>
 
             {/* Avatar + clickable dropdown */}
